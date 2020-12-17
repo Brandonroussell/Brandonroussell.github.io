@@ -1,2 +1,2 @@
-# Brandonroussell.githue.io
+# Brandonroussell.github.io
 coding class
