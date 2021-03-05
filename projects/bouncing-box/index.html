@@ -14,13 +14,21 @@
 			display: block;
 			position: absolute;
 			top: 100px;
-			left: 0px;  /* <--- Change me! */
+			left: 200px;  /* <--- Change me! */
 		}
+        #backgroud {
+            position: absolute;
+            margin-left: 0%;
+            margin-top: 0%;
+            width: 100%;
+            height: 100%;
+        }
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 
 </head>
 <body class="board">
+    <img src="Shia-LaBeouf-Just-Do-It.gif" type="image/gif" id="background">
 	<!-- HTML for the box -->
 	<div class="box">?</div>
 
@@ -34,8 +42,10 @@
 			//////////////////////////////////////////////////////////////////
 			
 			var box = jQuery('.box');	// reference to the HTML .box element
-			var board = jQuery('.board');	// reference to the HTML .board element
-			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
+            var board = jQuery('.board');	// reference to the HTML .board element
+            var window = screen.height;
+            var boardWidth = board.width();	// the maximum X-Coordinate of the screen
+            var boxWidth= box.width()
 
 			// Every 50 milliseconds, call the update Function (see below)
 			setInterval(update, 50);
@@ -44,8 +54,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
-				box.css("left", newPositionX);
+			function moveBoxTo(newPositionX, newPositionY) {
+                box.css("left", newPositionX);
+                box.css("top", newPositionY);
 			}
 
 			// changes the text displayed on the Box
@@ -58,7 +69,12 @@
 			//////////////////////////////////////////////////////////////////
 			
 			// TODO 2 - Variable declarations 
-			
+            var positionX = 0;
+            var positionY = 0;
+            var points = 0;
+            var speed = 10;
+            var sMult = 1;
+            var sMultY = 1;
 
 			
 			/* 
@@ -67,7 +83,21 @@
 			turn it around! 
 			*/
 			function update() {
-				
+                if (positionX >= boardWidth - boxWidth) {
+                    sMult = -1;
+                }
+                if (positionX <= 0) {
+                    sMult = 1;
+                }
+                if (positionY >= window - boxWidth) {
+                    sMultY = -1;
+                }
+                if (positionY <= 0) {
+                    sMultY = 1;
+                }
+                positionX += speed * sMult;
+                positionY += speed * sMultY;
+                moveBoxTo(positionX, positionY);
 
 			};
 
@@ -77,8 +107,10 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
-				
-
+				positionX = 0;
+                points++;
+                changeBoxText(points);
+                speed += 3;
 
 			};
 		})();
